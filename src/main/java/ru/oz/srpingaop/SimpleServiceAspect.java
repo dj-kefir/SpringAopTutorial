@@ -48,10 +48,10 @@ public class SimpleServiceAspect {
     @Around("@annotation(technicalLogging)")
     public Object makeLog(ProceedingJoinPoint pjp, TechnicalLogging technicalLogging) throws Throwable {
 
-        System.out.println("Залогируем входящее сообщение!");
+        System.out.println(String.format("Залогируем входящее сообщение {%s}!", technicalLogging.messageType()));
         Object[] args = pjp.getArgs();
         Object result = pjp.proceed(args);
-        System.out.println("Залогируем ответ сообщение!");
+        System.out.println(String.format("Залогируем ответ сообщение{%s}!", technicalLogging.messageType()));
 
         return result;
     }

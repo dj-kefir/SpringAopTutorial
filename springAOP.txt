@@ -1,0 +1,65 @@
+SPRING AOP:
+- Терминология:
+     Join point(точка внедрения) - место(для spring aop это только метод какого-то класса), перед/после/вокруг которого будет вызван наш код
+     сквозной логики.
+     Pointcut(срез) - объединение во множество join point'ов. Обычно данное множество задаётся AspectJ выражениями.
+     Advice(совет) - метод, реализующий нашу сквозную функциональность, который будет вызыван в рамках работы JoinPoint'а
+     Тип совета {Before, After, Around, Throws, Introduction) - это момент относительно работы Join point'а, в который будет запущен совет.
+     Aspect(аспект) - совокупность второго и третьего.
+
+- Ссылки:
+http://www.captaindebug.com/2011/09/using-aspectjs-afterthrowing-advice-in.html#.VcJWX_kppUy - Using AspectJ’s @AfterThrowing Advice in your Spring App
+http://www.javatpoint.com/spring-aop-aspectj-xml-configuration-example - настройка аспектов через xml
+http://examples.javacodegeeks.com/enterprise-java/spring/aop/spring-aop-example/ - настройка аспектов через xml
+http://www.javatpoint.com/spring-aop-aspectj-annotation-example - через аннотации
+http://www.journaldev.com/2583/spring-aop-example-tutorial-aspect-advice-pointcut-joinpoint-annotations-xml-configuration - Advice with Custom Annotation Pointcut
+http://howtodoinjava.com/2015/02/03/writing-spring-aop-aspectj-pointcut-expressions-with-examples/
+http://www.tutorialspoint.com/spring/aspectj_based_aop_appoach.htm
+
+- Зависимости:
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>4.1.4.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context-support</artifactId>
+    <version>4.1.4.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aop</artifactId>
+    <version>4.1.4.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjrt</artifactId>
+    <version>1.6.11</version>
+</dependency>
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.6.11</version>
+</dependency>
+
+- Настройка работы SPRING AOP
+ 1) <aop:aspectj-autoproxy/> - позволят спрингу находить классы отмеченные AOP аннотациями и создавать бины этих классов через
+ прокси с навешиванием "Советов" на их методы.
+
+
+- Если срез может использоваться для разных сеоветом, то его можно выделить в отдельное место, а потом проставлять у нужных
+  срезов.
+ @Pointcut("execution(* com.xyz.myapp.service.*.*(..))") // expression
+ private void businessService() {}  // signature
+
+ @Before("businessService()")
+ public void doBeforeTask(){
+  ...
+ }
+
+ @After("businessService()")
+ public void doAfterTask(){
+  ...
+ }
+

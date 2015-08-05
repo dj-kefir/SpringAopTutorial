@@ -26,7 +26,7 @@ public class SimpleService {
                 + " and my id is " + id);
     }
 
-    @TechnicalLogging
+    @TechnicalLogging(messageType = MessageType.Text)
     public void checkName() {
         if (name.length() < 20) {
             throw new IllegalArgumentException();
