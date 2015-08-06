@@ -1,0 +1,2 @@
+http://stackoverflow.com/questions/6915428/how-to-modify-the-raw-xml-message-of-an-outbound-cxf-request
+https://jax-ws.java.net/articles/handlers_introduction.html

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+       <import resource="classpath:META-INF/cxf/cxf.xml" />
+       <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+    <bean class="org.apache.cxf.interceptor.LoggingInInterceptor" id="loggingInInterceptor" />
+    <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" id="logOutInterceptor" />
+    <bean class="ru.oz.cxf.LogInputInterceptor" id="logInputInterceptor"/>
+
+    <cxf:bus>
+        <cxf:inInterceptors>
+            <ref bean="logInputInterceptor" />
+            <!--<ref bean="loggingInInterceptor" />-->
+        </cxf:inInterceptors>
+
+        <cxf:outInterceptors>
+            <ref bean="logOutInterceptor" />
+        </cxf:outInterceptors>
+
+        <cxf:inFaultInterceptors>
+            <ref bean="logOutInterceptor" />
+        </cxf:inFaultInterceptors>
+
+        <cxf:outFaultInterceptors>
+            <ref bean="logOutInterceptor" />
+        </cxf:outFaultInterceptors>
+    </cxf:bus>
+
+    <jaxws:endpoint
+        id="bookService"
+        implementor="ru.oz.cxf.BookServiceImpl"
+        address="/bookService">
+        <jaxws:handlers>
+            <bean class="ru.oz.cxf.LogCxfHandler"/>
+            <bean class="ru.oz.cxf.LogSoapHandler"/>
+        </jaxws:handlers>
+    </jaxws:endpoint>
+
+</beans>
