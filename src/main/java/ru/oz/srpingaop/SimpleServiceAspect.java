@@ -51,7 +51,7 @@ public class SimpleServiceAspect {
         System.out.println(String.format("Залогируем входящее сообщение {%s}!", technicalLogging.messageType()));
         Object[] args = pjp.getArgs();
         Object result = pjp.proceed(args);
-        System.out.println(String.format("Залогируем ответ сообщение{%s}!", technicalLogging.messageType()));
+        System.out.println(String.format("Залогируем ответ сообщение{%s}!", technicalLogging.messageType())) ;
 
         return result;
     }

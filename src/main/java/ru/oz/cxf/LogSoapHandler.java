@@ -31,7 +31,7 @@ public class LogSoapHandler implements SOAPHandler<SOAPMessageContext> {
         try {
             context.getMessage().writeTo(stream);
             String message = new String(stream.toByteArray(), "utf-8");
-            LOG.info("messag = " + message);
+            LOG.info("message = " + message);
 
         } catch (SOAPException | IOException e) {
             LOG.error(e);
@@ -40,6 +40,7 @@ public class LogSoapHandler implements SOAPHandler<SOAPMessageContext> {
     }
 
     public boolean handleFault(SOAPMessageContext context) {
+        LOG.error("Был эксепшн!");
         return true;
     }
 
