@@ -11,7 +11,7 @@
     <properties>
         <spring.version>4.2.0.RELEASE</spring.version>
         <aspectj.version>1.6.11</aspectj.version>
-        <cxf.version>3.1.1</cxf.version>
+        <cxf.version>2.7.11</cxf.version>
         <log4j.version>1.2.17</log4j.version>
     </properties>
 
@@ -78,6 +78,77 @@
             <artifactId>cxf-rt-transports-http</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <!--<wsdlOption>-->
+            <!--<wsdl>hybris/bin/custom/eldorado/eldoradointerfaces/resources/eldoradowsdl/ChangeStatOrder_SI_Async_In.wsdl</wsdl>-->
+            <!--<outputDir>hybris/bin/custom/eldorado/eldoradointerfaces/gensrc</outputDir>-->
+            <!--<extraargs>-->
+                <!--<extraarg>-verbose</extraarg>-->
+                <!--<extraarg>-validate</extraarg>-->
+                <!--<extraarg>-wsdlLocation</extraarg>-->
+                <!--<extraarg>classpath:eldoradowsdl/ChangeStatOrder_SI_Async_In.wsdl</extraarg>-->
+                <!--<extraarg>-p</extraarg>-->
+                <!--<extraarg>net.netconomy.eld.interfaces.ws</extraarg>-->
+
+            <!--</extraargs>-->
+        <!--</wsdlOption>-->
+
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${cxf.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-sources</id>
+                            <phase>generate-sources</phase>
+                            <configuration>
+                                <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                                <wsdlOptions>
+                                    <wsdlOption>
+                                        <wsdl>UpdateBonusOrder_SI_Sync_In.wsdl</wsdl>
+                                        <outputDir>/gensrc</outputDir>
+                                        <extraargs>
+                                            <extraarg>-verbose</extraarg>
+                                            <extraarg>-validate</extraarg>
+                                            <extraarg>-wsdlLocation</extraarg>
+                                            <extraarg>classpath:eldoradowsdl/ChangeStatOrder_SI_Async_In.wsdl</extraarg>
+                                            <extraarg>-p</extraarg>
+                                            <extraarg>net.netconomy.eld.interfaces.ws</extraarg>
+                                        </extraargs>
+                                    </wsdlOption>
+                                </wsdlOptions>
+                            </configuration>
+                            <goals>
+                                <goal>wsdl2java</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>xerces</groupId>
+                            <artifactId>xercesImpl</artifactId>
+                            <version>2.9.1</version>
+                        </dependency>
+                        <!--<dependency>-->
+                            <!--<groupId>org.apache.cxf</groupId>-->
+                            <!--<artifactId>cxf-xjc-ts</artifactId>-->
+                            <!--<version>2.2.9</version>-->
+                        <!--</dependency>-->
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

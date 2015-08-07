@@ -9,6 +9,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             WEB-INF/cfx-beans.xml
+            classpath*:context.xml
         </param-value>
     </context-param>
 

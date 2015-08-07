@@ -1,2 +1,3 @@
 http://stackoverflow.com/questions/6915428/how-to-modify-the-raw-xml-message-of-an-outbound-cxf-request
 https://jax-ws.java.net/articles/handlers_introduction.html
+http://www.javaworld.com/article/2077679/soa/get-a-handle-on-the-jax-ws-api-s-handler-framework.html?page=2

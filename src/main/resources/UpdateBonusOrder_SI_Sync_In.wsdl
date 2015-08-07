@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="UpdateBonusOrder_SI_Sync_In" targetNamespace="url:eldorado.ru:HBRS.INT_PI01_73_10.Bonuses" xmlns:p1="url:eldorado.ru:HBRS.INT_PI01_73_10.Bonuses"
+                  xmlns:p2="http://relaunch.eldorado.services.lenvendo.ru/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:documentation>Начисление (обновление) бонусов</wsdl:documentation>
+    <wsp:UsingPolicy wsdl:required="true"/>
+    <wsp:Policy wsu:Id="OP_UpdateBonusOrder_SI_Sync_In"/>
+    <wsdl:types>
+        <xsd:schema targetNamespace="url:eldorado.ru:HBRS.INT_PI01_73_10.Bonuses" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                xmlns="url:eldorado.ru:HBRS.INT_PI01_73_10.Bonuses">
+            <xsd:element name="UpdateBonusOrderResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="ReturnT" minOccurs="0" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="UpdateBonusOrder">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="OrderId" type="xsd:string" minOccurs="0" form="qualified"/>
+                        <xsd:element name="Bonus" type="ArrayOfBonusT" minOccurs="0" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="ReturnT">
+                <xsd:sequence>
+                    <xsd:element name="OrderId" type="xsd:string" minOccurs="0" form="qualified"/>
+                    <xsd:element name="EsReturn" type="CLVServiceReturn" minOccurs="0" form="qualified"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfBonusT">
+                <xsd:sequence>
+                    <xsd:element name="ArrayOfBonusTEl" type="BonusT" minOccurs="0" maxOccurs="unbounded" form="qualified"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CLVServiceReturn">
+                <xsd:sequence>
+                    <xsd:element name="ErrorType" type="xsd:string" minOccurs="0" form="qualified"/>
+                    <xsd:element name="ErrorId" type="xsd:string" minOccurs="0" form="qualified"/>
+                    <xsd:element name="ErrorNum" type="xsd:string" minOccurs="0" form="qualified"/>
+                    <xsd:element name="ErrorMessage" type="xsd:string" minOccurs="0" form="qualified"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="BonusT">
+                <xsd:sequence>
+                    <xsd:element name="Type" type="xsd:string" minOccurs="0" form="qualified"/>
+                    <xsd:element name="Name" type="xsd:string" minOccurs="0" form="qualified"/>
+                    <xsd:element name="XmlId" type="xsd:integer" minOccurs="0" form="qualified"/>
+                    <xsd:element name="Value" type="xsd:integer" minOccurs="0" form="qualified"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="p2.UpdateBonusOrderSoapIn">
+        <wsdl:documentation/>
+        <wsdl:part name="parameters" element="p1:UpdateBonusOrder"/>
+    </wsdl:message>
+    <wsdl:message name="p2.UpdateBonusOrderSoapOut">
+        <wsdl:documentation/>
+        <wsdl:part name="parameters" element="p1:UpdateBonusOrderResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="UpdateBonusOrder_SI_Sync_In">
+        <wsdl:documentation>Начисление (обновление) бонусов</wsdl:documentation>
+        <wsdl:operation name="UpdateBonusOrder_SI_Sync_In">
+            <wsdl:documentation/>
+            <wsp:Policy>
+                <wsp:PolicyReference URI="#OP_UpdateBonusOrder_SI_Sync_In"/>
+            </wsp:Policy>
+            <wsdl:input message="p1:p2.UpdateBonusOrderSoapIn"/>
+            <wsdl:output message="p1:p2.UpdateBonusOrderSoapOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="UpdateBonusOrder_SI_Sync_InBinding" type="p1:UpdateBonusOrder_SI_Sync_In">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        <wsdl:operation name="UpdateBonusOrder_SI_Sync_In">
+            <soap:operation style="document" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            <wsdl:input>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="UpdateBonusOrder_SI_Sync_In">
+        <wsdl:port name="binding" binding="p1:UpdateBonusOrder_SI_Sync_InBinding">
+            <soap:address location="http://electronics.local:9001/eldoradointerfaces/soap/UpdateBonusOrder_SI_Sync_In"
+                xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

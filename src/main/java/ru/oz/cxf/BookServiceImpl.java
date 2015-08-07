@@ -17,6 +17,6 @@ public class BookServiceImpl implements BookService {
     }
 
     public Book getException(String title) {
-        throw new NullPointerException("Нульпоинтер эксептион");
+        throw new NullPointerException("Нульпоинтер эксептион!");
     }
 }
