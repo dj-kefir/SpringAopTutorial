@@ -1,3 +1,41 @@
 http://stackoverflow.com/questions/6915428/how-to-modify-the-raw-xml-message-of-an-outbound-cxf-request
 https://jax-ws.java.net/articles/handlers_introduction.html
 http://www.javaworld.com/article/2077679/soa/get-a-handle-on-the-jax-ws-api-s-handler-framework.html?page=2
+
+cxf-codegen-plugin - мавен плагин, генерит на основе wsdl прокси для вебсервисов.
+http://cxf.apache.org/docs/wsdl-to-java.html - опциональные параметры.
+
+<outputDir>/gensrc</outputDir> - переопределяет папку куда будут сгенерированы прокси (для хайбриса специально одна общая папка).
+<extraargs>
+    <extraarg>-verbose</extraarg> - вывод дебаг инфы работы плагина
+    <extraarg>-validate</extraarg>
+    <extraarg>-wsdlLocation</extraarg>
+    <extraarg>classpath:UpdateBonusOrder_SI_Sync_In.wsdl</extraarg> - откуда брать wsdl
+    <extraarg>-p</extraarg> - флаг, устананвливает, что для генерируемых прокси будет переопределен пакет. Иначе прокси будут с пакетами от wsdl.
+    <extraarg>net.netconomy.eld.interfaces.ws</extraarg> - имя пакета у генерируемого вебсервис-прокси.
+</extraargs>
+
+
+Механизм логирования нужно реализовывать, при помощи jax-ws интерцепторов/хендлеров на стороне cxf, поскольку
+только jax-ws фреймворк контролирует отлавливание парсинг эксешенов (неверных соап запросов).
+
+Однако было выявлено следующее ограничение: для методов вебсервисов, которые отмечены @Oneway анотацией
+cxf фреймворк не запускает обработку интерцепторов/хендлеров после выбрасывания эксепшенов на стороне клиентского
+кода. Парсинг эксепшны ловятся, т.е. они не в счет. (cxf искодник - PhaseInterceptorChain.java - фраза isOneWay)
+https://issues.apache.org/jira/browse/CXF-5629 - возможный источник данной ситуации.
+
+Выход, это подкорректировать wsdl интерфейсы, посколько именно из-за них maven плагин генерит прокси с анотацией
+@Oneway. Т.е. мы должны избавится от oneway методов, остальные нормально интерсептятся.
+Для этого в wsdl каждого интерфейса должен методах каждого и должны присутвовать response мессаджы:
+Пример: (http://www.w3.org/TR/wsdl#_one-way):
+
+  <wsdl:portType name="BankAccountService">
+    <wsdl:operation name="addUserDetails">
+      <wsdl:input name="addUserDetails" message="tns:addUserDetails">
+    </wsdl:input>
+      <!--<wsdl:output name="addUserDetailsResponse" message="tns:addUserDetailsResponse">-->
+    <!--</wsdl:output>-->
+    </wsdl:operation>
+  </wsdl:portType>
+
+А так же в теге <wsdl:binding> (хз почему такой дубляж.)
